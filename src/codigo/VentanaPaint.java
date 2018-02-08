@@ -16,14 +16,15 @@ import java.awt.image.BufferedImage;
  * @author xp
  */
 public class VentanaPaint extends javax.swing.JFrame {
-    BufferedImage buffer = null;
-    Ellipse2D.Double auxiliar;
+    BufferedImage buffer , buffer2= null;
+    Circulo auxiliar;
     /**
      * Creates new form VentanaPaint
      */
     public VentanaPaint() {
         initComponents();
         inicializaBuffers();
+        jDialog1.setSize(640,450);
     }
 private void inicializaBuffers(){
     //creo una imagen del mismo ancho y alto que el lienzo
@@ -33,6 +34,14 @@ private void inicializaBuffers(){
     //Inicializa el buffer para que sea un rectangulo rojo que ocupe todo el jpanel
     g2.setColor(Color.white);
     g2.fillRect(0,0, buffer.getWidth(), buffer.getHeight());
+    
+    //Inicializo el segundo buffer
+    buffer2 = (BufferedImage)jPanel1.createImage(jPanel1.getWidth(), jPanel1.getHeight());
+    //creo una imagen modificable
+     g2 = buffer2.createGraphics();
+    //Inicializa el buffer para que sea un rectangulo rojo que ocupe todo el jpanel
+    g2.setColor(Color.white);
+    g2.fillRect(0,0, buffer2.getWidth(), buffer2.getHeight());
     }
     @Override
     public void paint(Graphics g){
@@ -52,7 +61,45 @@ private void inicializaBuffers(){
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jDialog1 = new javax.swing.JDialog();
+        jColorChooser1 = new javax.swing.JColorChooser();
+        jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
+        jCheckBox1 = new javax.swing.JCheckBox();
+        jButton3 = new javax.swing.JButton();
+
+        jButton1.setText("Cancelar");
+
+        jButton2.setText("Guardar");
+
+        javax.swing.GroupLayout jDialog1Layout = new javax.swing.GroupLayout(jDialog1.getContentPane());
+        jDialog1.getContentPane().setLayout(jDialog1Layout);
+        jDialog1Layout.setHorizontalGroup(
+            jDialog1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jDialog1Layout.createSequentialGroup()
+                .addGroup(jDialog1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jDialog1Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jColorChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, 615, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jDialog1Layout.createSequentialGroup()
+                        .addGap(140, 140, 140)
+                        .addComponent(jButton1)
+                        .addGap(119, 119, 119)
+                        .addComponent(jButton2)))
+                .addContainerGap(105, Short.MAX_VALUE))
+        );
+        jDialog1Layout.setVerticalGroup(
+            jDialog1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jDialog1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jColorChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, 328, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jDialog1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton1)
+                    .addComponent(jButton2))
+                .addContainerGap(141, Short.MAX_VALUE))
+        );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -65,6 +112,9 @@ private void inicializaBuffers(){
         jPanel1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 jPanel1MousePressed(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                jPanel1MouseReleased(evt);
             }
         });
 
@@ -79,12 +129,24 @@ private void inicializaBuffers(){
             .addGap(0, 586, Short.MAX_VALUE)
         );
 
+        jCheckBox1.setText("relleno");
+
+        jButton3.setText("Color");
+        jButton3.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jButton3MousePressed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 81, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jCheckBox1, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jButton3, javax.swing.GroupLayout.Alignment.TRAILING))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         layout.setVerticalGroup(
@@ -92,33 +154,44 @@ private void inicializaBuffers(){
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(49, 49, 49)
+                .addComponent(jCheckBox1)
+                .addGap(18, 18, 18)
+                .addComponent(jButton3)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void jPanel1MouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel1MouseDragged
-        //borro lo que hubiera en el lienzo
         //primero apuntamos al buffer para dibujar sobre el
         Graphics2D g2 = (Graphics2D) buffer.getGraphics();
-        g2.setColor(Color.white);
-        g2.fillRect(0,0, buffer.getWidth(), buffer.getHeight());
-        int radio = Math.abs((int)auxiliar.x - evt.getX());
-        auxiliar.width= radio;
-        auxiliar.height= radio;
-        g2.setColor(Color.BLACK);
-        g2.fill(auxiliar);
+         //Repinto el fondo
+        g2.drawImage(buffer2,0,0,null);
+        //Dibuja el circulo
+        auxiliar.dibujate(g2, evt.getX());
         
         
-        g2 = (Graphics2D) jPanel1.getGraphics();
-        g2.drawImage(buffer, 0, 0, null);
         repaint(0,0,1,1);
     }//GEN-LAST:event_jPanel1MouseDragged
 
     private void jPanel1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel1MousePressed
         // Inicializo la ellipse que usaré para dibujar en el buffer
-        auxiliar= new Ellipse2D.Double(evt.getX(), evt.getY(), 1, 1);
+        auxiliar= new Circulo(evt.getX(), evt.getY(), 1, Color.BLUE, jCheckBox1.isSelected());
     }//GEN-LAST:event_jPanel1MousePressed
+
+    private void jPanel1MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel1MouseReleased
+      //apunto al buffer2
+        Graphics2D g2 = (Graphics2D) buffer2.getGraphics();
+        //redibujas el circulo
+        auxiliar.dibujate(g2, evt.getX());
+    }//GEN-LAST:event_jPanel1MouseReleased
+
+    private void jButton3MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton3MousePressed
+       jDialog1.setVisible(true);
+    }//GEN-LAST:event_jButton3MousePressed
 
     /**
      * @param args the command line arguments
@@ -156,6 +229,12 @@ private void inicializaBuffers(){
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
+    private javax.swing.JCheckBox jCheckBox1;
+    private javax.swing.JColorChooser jColorChooser1;
+    private javax.swing.JDialog jDialog1;
     private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables
 }
