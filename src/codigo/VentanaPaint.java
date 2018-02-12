@@ -23,6 +23,8 @@ public class VentanaPaint extends javax.swing.JFrame {
     int formaSeleccionada = 0; //si vale 0 pinto circulos
                                //si vale 1 pinto cuadrados
                                //si vale 2 pinto lineas
+    Graphics2D bufferGraphics, buffer2Graphics, jPanelGraphics = null;
+    
     /**
      * Creates new form VentanaPaint
      */
@@ -35,18 +37,18 @@ private void inicializaBuffers(){
     //creo una imagen del mismo ancho y alto que el lienzo
     buffer = (BufferedImage)jPanel1.createImage(jPanel1.getWidth(), jPanel1.getHeight());
     //creo una imagen modificable
-    Graphics2D g2 = buffer.createGraphics();
+    bufferGraphics = buffer.createGraphics();
     //Inicializa el buffer para que sea un rectangulo rojo que ocupe todo el jpanel
-    g2.setColor(Color.white);
-    g2.fillRect(0,0, buffer.getWidth(), buffer.getHeight());
+    bufferGraphics.setColor(Color.white);
+    bufferGraphics.fillRect(0,0, buffer.getWidth(), buffer.getHeight());
     
     //Inicializo el segundo buffer
     buffer2 = (BufferedImage)jPanel1.createImage(jPanel1.getWidth(), jPanel1.getHeight());
     //creo una imagen modificable
-     g2 = buffer2.createGraphics();
+     buffer2Graphics = buffer2.createGraphics();
     //Inicializa el buffer para que sea un rectangulo rojo que ocupe todo el jpanel
-    g2.setColor(Color.white);
-    g2.fillRect(0,0, buffer2.getWidth(), buffer2.getHeight());
+    buffer2Graphics.setColor(Color.white);
+    buffer2Graphics.fillRect(0,0, buffer2.getWidth(), buffer2.getHeight());
     }
     @Override
     public void paint(Graphics g){
@@ -220,14 +222,11 @@ private void inicializaBuffers(){
     }// </editor-fold>//GEN-END:initComponents
 
     private void jPanel1MouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel1MouseDragged
-        //primero apuntamos al buffer para dibujar sobre el
-        Graphics2D g2 = (Graphics2D) buffer.getGraphics();
-         //Repinto el fondo
-        g2.drawImage(buffer2,0,0,null);
+        bufferGraphics.drawImage(buffer2,0,0,null);
         //Dibuja la forma correspondiente
          switch(formaSeleccionada){
-            case 0: circulo.dibujate(g2, evt.getX()); break;
-            case 1: cuadrado.dibujate(g2, evt.getX()); break;
+            case 0: circulo.dibujate(bufferGraphics, evt.getX()); break;
+            case 1: cuadrado.dibujate(bufferGraphics, evt.getX()); break;
         }
         
         repaint(0,0,1,1);
@@ -244,12 +243,11 @@ private void inicializaBuffers(){
     }//GEN-LAST:event_jPanel1MousePressed
 
     private void jPanel1MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel1MouseReleased
-      //apunto al buffer2
-        Graphics2D g2 = (Graphics2D) buffer2.getGraphics();
+
          //Dibuja la forma correspondiente
          switch(formaSeleccionada){
-            case 0: circulo.dibujate(g2, evt.getX()); break;
-            case 1: cuadrado.dibujate(g2, evt.getX()); break;
+            case 0: circulo.dibujate(buffer2Graphics, evt.getX()); break;
+            case 1: cuadrado.dibujate(buffer2Graphics, evt.getX()); break;
         }
     }//GEN-LAST:event_jPanel1MouseReleased
 
