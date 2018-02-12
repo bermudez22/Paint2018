@@ -49,6 +49,8 @@ private void inicializaBuffers(){
     //Inicializa el buffer para que sea un rectangulo rojo que ocupe todo el jpanel
     buffer2Graphics.setColor(Color.white);
     buffer2Graphics.fillRect(0,0, buffer2.getWidth(), buffer2.getHeight());
+    
+    jPanelGraphics = (Graphics2D) jPanel1.getGraphics();
     }
     @Override
     public void paint(Graphics g){
@@ -56,8 +58,8 @@ private void inicializaBuffers(){
         
         //pinto el buffer sobre el JFrame
         //primero creo una variable que apunta al sitio que quiero pintar
-        Graphics2D g2 = (Graphics2D) jPanel1.getGraphics();
-        g2.drawImage(buffer, 0, 0, null);
+        
+        jPanelGraphics.drawImage(buffer, 0, 0, null);
 }
     /**
      * This method is called from within the constructor to initialize the form.
