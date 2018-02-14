@@ -9,50 +9,44 @@ import java.awt.Polygon;
 
 /**
  *
- * @author Diego Álvarez    
+ * @author Juan Antonio Bermudez Chacon Álvarez    
  */
 public class Triangulo extends Polygon{
     public Color color= null;
     public boolean relleno = false;
-    
+    //coordenadas del centro del triangulo
+    public int x = 0;
+    public int y =0;
     
      public Triangulo (int _posX, int _posY, int _altura, Color _color, boolean _relleno){
-         this.npoints = 3;
-         //primera coordenada del triangulo, el punto (X0,Y0)
-         this.xpoints[0] = _posX;
-         this.ypoints[0] = _posY;
-         
-         //escribo las Y que coinciden con el valor de la altura
-         this.xpoints[1] = _posY + _altura;
-         this.ypoints[2] = _posY + _altura;
-         
-         int mediaBase = (int) (_altura/Math.tan(Math.toRadians(60)));
-         
-         this.xpoints[1] = _posX + mediaBase;
-         this.xpoints[2] = _posX - mediaBase;
-         
+         //inicializo el constructor del triangulo
+         super(new int[3],new int[3],3);
+         //guardo el centro del triangulo
+         this.x =_posX;
+         this.y=_posY;
+      
         color = _color;
         relleno = _relleno;
     }
      
      public void dibujate(Graphics2D g2, int _posY){
-        //redibujas el tirangulo
-        int altura = Math.abs((int) ypoints[0] - _posY);
-         this.ypoints[1] = _posY + altura;
-         this.ypoints[2] = _posY + altura;
-         
-         int mediaBase = (int) (altura/Math.tan(Math.toRadians(60)));
-         
-         this.xpoints[1] = this.xpoints[0]  + mediaBase;
-         this.xpoints[2] = this.xpoints[0] - mediaBase;
-        
-      
+        //redibujas el triangulo (TODO)
+        calculaVertices(y - _posY);
         g2.setColor(color);
         if(relleno){
-        g2.fill(this);
+            g2.fill(this);
     }
         else{
             g2.draw(this);
         }
     }
+     
+     //Recalcula la posicion de los vertices en un poligono regular
+     private void calculaVertices (int _radio){
+     for(int i=0; i<npoints;i++){
+             this.xpoints[i] = (int) (x + _radio*Math.cos(2*Math.PI*i/npoints));
+             this.ypoints[i] = (int) (y + _radio*Math.sin(2*Math.PI*i/npoints));
+         }
+     
+     }
 }

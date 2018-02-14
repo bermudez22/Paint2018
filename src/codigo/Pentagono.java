@@ -31,19 +31,22 @@ public class Pentagono extends Polygon{
      
      public void dibujate(Graphics2D g2, int _posY){
         //redibujas el pentagono (TODO)
-     int radio = y - _posY;
-     for(int i=0; i<npoints;i++){
-             this.xpoints[i] = (int) (x + radio*Math.cos(2*Math.PI*i/npoints));
-             this.ypoints[i] = (int) (y + radio*Math.sin(2*Math.PI*i/npoints));
-         }   
-     
-     
+        calculaVertices(y - _posY);
         g2.setColor(color);
         if(relleno){
-        g2.fill(this);
+            g2.fill(this);
     }
         else{
             g2.draw(this);
         }
     }
+     
+     //Recalcula la posicion de los vertices en un poligono regular
+     private void calculaVertices (int _radio){
+     for(int i=0; i<npoints;i++){
+             this.xpoints[i] = (int) (x + _radio*Math.cos(2*Math.PI*i/npoints));
+             this.ypoints[i] = (int) (y + _radio*Math.sin(2*Math.PI*i/npoints));
+         }
+     
+     }
 }
